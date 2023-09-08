@@ -9,7 +9,7 @@ import { SnackBarErrorComponent } from './snack-bar-error/snack-bar-error.compon
   providedIn: 'root'
 })
 export class AppService {
-  private apiPath = 'https://motorsport-fantasy.up.railway.app/';
+  private apiPath = 'http://localhost:8080/';
 
   private loggedSubject = new BehaviorSubject<string | null>(null);
   public logged$ = this.loggedSubject.asObservable();

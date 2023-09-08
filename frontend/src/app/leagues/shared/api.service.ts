@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class ApiService {
-  private path = 'https://motorsport-fantasy.up.railway.app/'
+  private path = 'http://localhost:8080/'
 
   private leagueSubject = new BehaviorSubject<League[]>([]);
   public leagues$ = this.leagueSubject.asObservable();
