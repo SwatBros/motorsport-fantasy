@@ -1,0 +1,5 @@
+<div>
+	<button *ngFor="let s of (api.currentLeague$ | async)?.series" mat-raised-button color="accent" [routerLink]="s.name">
+		{{s.name}}
+	</button>
+</div>

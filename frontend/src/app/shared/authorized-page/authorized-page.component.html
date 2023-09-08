@@ -1,0 +1,84 @@
+<div class="page">
+	<mat-toolbar color="primary">
+		<mat-toolbar-row>
+			<span class="title">Motorsport Fantasy</span>
+			<button mat-icon-button aria-label="Menu" (click)="toggleSidenav()">
+				<mat-icon>menu</mat-icon>
+			</button>
+			<div class="right">
+				<span>{{app.logged$ | async}}</span>
+				<button mat-icon-button aria-label="Account" [matMenuTriggerFor]="accountMenu">
+					<mat-icon>person</mat-icon>
+				</button>
+			</div>
+		</mat-toolbar-row>
+		
+		<mat-toolbar-row>
+			<div class="title">
+				<button mat-button [matMenuTriggerFor]="leagueMenu">
+					{{(api.currentLeague$ | async)?.name}}
+					<mat-icon iconPositionEnd>expand_more</mat-icon>
+				</button>
+			</div>
+			<span class="margin right">
+				{{(getCurrentPlayer() | async)?.points}} pts · {{(getCurrentPlayer() | async)?.money | currency:undefined:undefined:'1.0-0'}}
+			</span>
+		</mat-toolbar-row>
+	</mat-toolbar>
+
+	<mat-sidenav-container class="sidenav-container">
+		<mat-sidenav class="sidenav" mode="side" [opened]="isSidenavOpen">
+			<mat-list>
+				<mat-list-item>
+					<button mat-button [routerLink]="['/home']">
+						<mat-icon>home</mat-icon>
+						Home
+					</button>
+				</mat-list-item>
+
+				<mat-list-item>
+					<button mat-button [routerLink]="['/manage']">
+						<mat-icon>swap_vert</mat-icon>
+						Manage
+					</button>
+				</mat-list-item>
+
+				<mat-list-item>
+					<button mat-button [routerLink]="['/league']">
+						<mat-icon>sports_motorsports</mat-icon>
+						League
+					</button>
+				</mat-list-item>
+			</mat-list>
+
+			<div class="author">
+				<p>Made by</p>
+				<p>Alessio Disarò</p>
+			</div>
+		</mat-sidenav>
+		<mat-sidenav-content class="sidenav-content">
+			<ng-content></ng-content>
+		</mat-sidenav-content>
+	</mat-sidenav-container>
+
+	<mat-menu #accountMenu="matMenu">
+		<button mat-menu-item routerLink="/join">
+			<mat-icon>sports_motorsports</mat-icon>
+			Join League
+		</button>
+
+		<buton mat-menu-item routerLink="/create">
+			<mat-icon>add_circle</mat-icon>
+			Create League
+		</buton>
+
+		<button mat-menu-item (click)="app.logout()">
+			<mat-icon>logout</mat-icon>
+			Logout
+		</button>
+	</mat-menu>
+
+	<mat-menu #leagueMenu="matMenu" xPosition="after">
+		<button *ngFor="let a of api.leagues$ | async" mat-menu-item (click)="api.setCurrentLeague(a)">{{a.name}}</button>
+	</mat-menu>
+</div>

@@ -1,0 +1,26 @@
+<app-authorized-page>
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title>
+				{{(api.currentLeague$ | async)?.name}}
+			</mat-card-title>
+		</mat-card-header>
+
+		<mat-card-content class="content">
+			Series
+			<mat-chip-listbox multiple>
+				<mat-chip-option #chip *ngFor="let n of api.getSeries() | async"
+					[selected]="isSelected(n) | async"
+					[disabled]="(api.currentLeague$ | async)?.owner !== (app.logged$ | async)"
+					(click)="chipClick(n, chip)">
+					{{n}}
+				</mat-chip-option>
+			</mat-chip-listbox>
+
+			<mat-divider></mat-divider>
+			<button mat-raised-button color="warn"
+				[disabled]="(api.currentLeague$ | async)?.owner === (app.logged$ | async) || (api.currentLeague$ | async)?.name === 'Global League'"
+				(click)="api.leaveLeague()">Leave</button>
+		</mat-card-content>
+	</mat-card>
+</app-authorized-page>

@@ -1,0 +1,35 @@
+<div class="page">
+	<mat-toolbar color="primary">
+		<span class="title">Motorsport Fantasy</span>
+		<button mat-icon-button aria-label="Menu" (click)="toggleSidenav()">
+			<mat-icon>menu</mat-icon>
+		</button>
+		<div class="right">
+			<button [class.darken]="router.isActive('/login', true)" mat-flat-button color="primary" [routerLink]="['/login']" aria-label="Login Page">Login</button> |
+			<button [class.darken]="router.isActive('/register', true)" mat-flat-button color="primary" [routerLink]="['/register']" aria-label="Register Page">Sign Up</button>
+		</div>
+	</mat-toolbar>
+
+	<mat-sidenav-container class="sidenav-container">
+		<mat-sidenav class="sidenav" mode="side" [opened]="isSidenavOpen">
+			<mat-list>
+				<mat-list>
+					<mat-list-item class="sidenav-item">
+						<button [class.darken]="router.isActive('/login', true)" class="sidenav-action" mat-button [routerLink]="['/login']" aria-label="Login Page">Login</button>
+					</mat-list-item>
+				</mat-list>
+				<mat-divider></mat-divider>
+				<mat-list-item class="sidenav-item">
+					<button [class.darken]="router.isActive('/register', true)" class="sidenav-action" mat-button [routerLink]="['/register']" aria-label="Register Page">Sign Up</button>
+				</mat-list-item>
+			</mat-list>
+			<div class="author">
+				<p>Made by</p>
+				<p>Alessio Disarò</p>
+			</div>
+		</mat-sidenav>
+		<mat-sidenav-content class="sidenav-content">
+			<ng-content></ng-content>
+		</mat-sidenav-content>
+	</mat-sidenav-container>
+</div>

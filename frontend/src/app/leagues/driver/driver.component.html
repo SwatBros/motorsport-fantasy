@@ -1,0 +1,74 @@
+<div class="container">
+	<img [src]="(getDriver() | async)?.imgRef" width="40%">
+
+	<div class="right-container">
+		<h1>{{(getDriver() | async)?.name}} <mat-icon *ngIf="getContract() | async">beenhere</mat-icon></h1>
+		<div class="stats">
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Points</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					{{(getDriver() | async)?.points}}
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Trend</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+						{{(getDriver() | async)?.trend | number: '1.3-3'}}
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Value</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					{{(getDriver() | async)?.value | currency:undefined:undefined:'1.0-0'}}
+				</mat-card-content>
+			</mat-card>
+		</div>
+
+		<h2 *ngIf="getContract() | async">From the start of the contract ({{(getContract() | async)?.start}})</h2>
+		<div class="stats" *ngIf="getContract() | async">
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Points</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					{{(getContract() | async)?.points}}
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Trend</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					{{(getContract() | async)?.trend | number: '1.3-3'}}
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Value</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					{{((getDriver() | async)?.value || 0) - ((getContract() | async)?.value || 0) | currency:undefined:undefined:'1.0-0'}}
+				</mat-card-content>
+			</mat-card>
+		</div>
+
+		<button *ngIf="!(getContract() | async)" mat-raised-button color="accent" (click)="createContract()">Buy</button>
+		<button *ngIf="getContract() | async" mat-raised-button color="warn" (click)="deleteContract()">Sell</button>
+	</div>
+
+	<div class="bottom-container">
+		<!-- <p *ngFor="let r of (getDriver() | async)!.results">{{r.points}}</p> -->
+
+		<canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'line'" [legend]="false"> </canvas>
+	</div>
+</div>

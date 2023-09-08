@@ -1,0 +1,57 @@
+<app-authorized-page>
+	<mat-accordion>
+		<mat-expansion-panel [expanded]="true">
+			<mat-expansion-panel-header>
+				<mat-panel-title>Overall</mat-panel-title>
+			</mat-expansion-panel-header>
+
+			<table mat-table [dataSource]="(api.currentLeague$ | async)?.players || []">
+				<ng-container matColumnDef="name">
+					<th mat-header-cell *matHeaderCellDef>Name</th>
+					<td [class.highlight]="element.name === (app.logged$ | async)" mat-cell *matCellDef="let element"> {{element.name}} </td>
+				</ng-container>
+
+				<ng-container matColumnDef="position">
+					<th mat-header-cell *matHeaderCellDef>Position</th>
+					<td [class.highlight]="element.name === (app.logged$ | async)" mat-cell *matCellDef="let element"> {{((api.currentLeague$ | async)?.players?.indexOf(element) || 0) + 1}} </td>
+				</ng-container>
+
+				<ng-container matColumnDef="points">
+					<th mat-header-cell *matHeaderCellDef>Points</th>
+					<td [class.highlight]="element.name === (app.logged$ | async)" mat-cell *matCellDef="let element"> {{element.points}} </td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			</table>
+		</mat-expansion-panel>
+
+		<ng-container *ngFor="let series of (api.currentLeague$ | async)?.series">
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>{{series.name}}</mat-panel-title>
+				</mat-expansion-panel-header>
+
+				<table mat-table [dataSource]="(api.standings$ | async)?.[series.name] || []">
+					<ng-container matColumnDef="name">
+						<th mat-header-cell *matHeaderCellDef>Name</th>
+						<td [class.highlight]="element.player === (app.logged$ | async)" mat-cell *matCellDef="let element"> {{element.player}} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="position">
+						<th mat-header-cell *matHeaderCellDef>Position</th>
+						<td [class.highlight]="element.player === (app.logged$ | async)" mat-cell *matCellDef="let element"> {{((api.standings$ | async)?.[series.name]?.indexOf(element) || 0) + 1}} </td>
+					</ng-container>
+
+					<ng-container matColumnDef="points">
+						<th mat-header-cell *matHeaderCellDef>Points</th>
+						<td [class.highlight]="element.player === (app.logged$ | async)" mat-cell *matCellDef="let element"> {{element.points}} </td>
+					</ng-container>
+
+					<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+				</table>
+			</mat-expansion-panel>
+		</ng-container>
+	</mat-accordion>
+</app-authorized-page>

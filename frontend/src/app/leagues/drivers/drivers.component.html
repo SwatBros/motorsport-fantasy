@@ -1,0 +1,54 @@
+<div>
+	<mat-form-field>
+		<mat-label>Filter</mat-label>
+		<input matInput (keyup)="applyFilter($event)" #input>
+	</mat-form-field>
+
+	<table mat-table matSort [dataSource]="dataSource">
+		<ng-container matColumnDef="name">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+			<td mat-cell *matCellDef="let element"> {{element.name}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="position">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
+			<td mat-cell *matCellDef="let element"> {{element.position}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="points">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Points</th>
+			<td mat-cell *matCellDef="let element"> {{element.points}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="value">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Value</th>
+			<td mat-cell *matCellDef="let element"> {{element.value | currency:undefined:undefined:'1.0-0'}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="image">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Image</th>
+			<td mat-cell *matCellDef="let element"> <img [src]="element.imgRef" width="32px"> </td>
+		</ng-container>
+
+		<ng-container matColumnDef="contract">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Contract</th>
+			<td mat-cell *matCellDef="let element"><mat-icon *ngIf="hasContract(element.name) | async">beenhere</mat-icon></td>
+		</ng-container>
+
+		<ng-container matColumnDef="trend">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Trend</th>
+			<td mat-cell *matCellDef="let element">
+				<mat-icon [class]="{ positive: element.trend > t, negative: element.trend < -t }">
+					{{element.trend > t ? 'arrow_drop_up' : (element.trend < -t ? 'arrow_drop_down' : '')}}
+				</mat-icon>
+			</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="[row.name]"></tr>
+
+		<tr class="mat-row" *matNoDataRow>
+			<td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,37 @@
+<app-unauthorized-page>
+	<mat-card class="card">
+		<mat-card-header>
+			<mat-card-title>Sign Up</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<form [formGroup]="registerForm">
+				<mat-form-field>
+					<mat-label>Username</mat-label>
+					<input matInput type="text" formControlName="username" required>
+					<mat-error *ngIf="registerForm.controls.username.invalid">Invalid Username</mat-error>
+				</mat-form-field>
+				
+				<mat-form-field>
+					<mat-label>Password</mat-label>
+					<input matInput [type]="hidePassword ? 'password' : 'text'" [errorStateMatcher]="matcher" formControlName="password" required>
+					<button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+						<mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+					</button>
+					<mat-error *ngIf="registerForm.controls.password.invalid">Invalid Password</mat-error>
+					<mat-error *ngIf="registerForm.hasError('passwordMismatch')">Password must match</mat-error>
+				</mat-form-field>
+				<mat-form-field>
+					<mat-label>Confirm Password</mat-label>
+					<input matInput [type]="hideConfirm ? 'password' : 'text'" [errorStateMatcher]="matcher" formControlName="confirm" required>
+					<button mat-icon-button matSuffix type="button" (click)="toggleConfirmVisibility()">
+						<mat-icon>{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
+					</button>
+					<mat-error *ngIf="registerForm.controls.confirm.invalid">Invalid Password</mat-error>
+					<mat-error *ngIf="registerForm.hasError('passwordMismatch')">Password must match</mat-error>
+				</mat-form-field>
+
+				<button mat-raised-button color="primary" (click)="onSubmit()">Sign Up</button>
+			</form>
+		</mat-card-content>
+	</mat-card>
+</app-unauthorized-page>
